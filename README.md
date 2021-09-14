@@ -97,6 +97,15 @@ bash /data/software/Merqury/merqury/trio/exclude_reads.sh mat.hapmer.meryl f1.hi
 ## 3. Quality check
 
 - Trioeval for hamming error and switch error
+
+| Type       | Hap  | Switch | Hamming |
+|------------|------|--------|---------|
+| Trio       | hap1 | 0.49%  | 0.59%   |
+| Trio       | hap2 | 0.56%  | 1.13%   |
+| Trio-check | hap1 | 0.44%  | 0.39%   |
+| Trio-check | hap2 | 0.55%  | 1.12%   |
+
+
 - QV estimation for two haplotype
 - Check the haplotype synteny and confirm the utg (https://github.com/chhylp123/hifiasm/issues/159)
 - Check the coverage of two haplotype
