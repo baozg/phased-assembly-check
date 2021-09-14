@@ -34,8 +34,10 @@ meryl-lookup -memory 2 -exclude -mers mat.meryl -sequence $read1 -sequence2 $rea
 pat.R2.fastq.gz | pigz -c > pat.R1.fastq.gz 
 
 Using https://github.com/marbl/merqury/blob/master/trio/exclude_reads.sh
+
+bash /data/software/Merqury/merqury/trio/exclude_reads.sh mat.hapmer.meryl f1.hic.R1.fq.gz f1.hic.R2.fq.gz pat
 ```
-- Scaffold two haplotype together and check
+- Scaffold two haplotype together and check (recommend)
 
     - run juicer + 3d-dna / AllHiC
     - Loading into JuiceBox for visualization
