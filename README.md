@@ -106,6 +106,11 @@ bash /data/software/Merqury/merqury/trio/exclude_reads.sh mat.hapmer.meryl f1.hi
 | Trio-check | hap2 | 0.55%  | 1.12%   |
 | Trio(0.16.1) | hap1 | 0.46%  | 0.46%   |
 | Trio (0.16.1) | hap2 | 0.55%  | 0.57%   |
+| HiC (0.16.1) | hap1 | 0.51%  | 0.46%   |
+| HiC (0.16.1)| hap2 | 0.49%  | 0.51%   |
+| dual (0.16.1) | hap1 | 0.51%  | 8.51%   |
+| dual (0.16.1)| hap2 | 0.50%  | 13.69%   |
+
 
 
 - QV estimation for two haplotype
