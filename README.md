@@ -100,10 +100,12 @@ bash /data/software/Merqury/merqury/trio/exclude_reads.sh mat.hapmer.meryl f1.hi
 
 | Type       | Hap  | Switch | Hamming |
 |------------|------|--------|---------|
-| Trio       | hap1 | 0.49%  | 0.59%   |
-| Trio       | hap2 | 0.56%  | 1.13%   |
+| Trio (0.14.2)       | hap1 | 0.49%  | 0.59%   |
+| Trio (0.14.2)      | hap2 | 0.56%  | 1.13%   |
 | Trio-check | hap1 | 0.44%  | 0.39%   |
 | Trio-check | hap2 | 0.55%  | 1.12%   |
+| Trio(0.16.1) | hap1 | 0.46%  | 0.46%   |
+| Trio (0.16.1) | hap2 | 0.55%  | 0.57%   |
 
 
 - QV estimation for two haplotype
