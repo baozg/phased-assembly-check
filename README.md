@@ -25,7 +25,8 @@ yak trioeval pat.yak mat.yak HG002.asm.trio.hap2.p_ctg.fa > HG002.asm.hap2.trioe
 ```
 
 ## 2. Haplotype-aware scaffolding
-- Remove Haplotype-specific HiC reads (https://www.nature.com/articles/s41586-021-03451-0)
+
+### Remove Haplotype-specific HiC reads (https://www.nature.com/articles/s41586-021-03451-0) (with Trio data)
 
 ```shell
 meryl-lookup -memory 2 -exclude -mers pat.meryl -sequence $read1 -sequence2 $read2 -r2
@@ -37,9 +38,13 @@ Using https://github.com/marbl/merqury/blob/master/trio/exclude_reads.sh
 
 bash /data/software/Merqury/merqury/trio/exclude_reads.sh mat.hapmer.meryl f1.hic.R1.fq.gz f1.hic.R2.fq.gz pat
 ```
-- Scaffold two haplotype together and check (recommend)
+### Scaffold two haplotype together and check (recommend for HiC only)
 
-    - run juicer + 3d-dna / AllHiC
+- Medium heterozygosity or with high ROH
+If your sample's heterozygosity is medium (ex. < 1%) or have long ROH , combining two haplotype and run HiC scaffolding will have lots of empty region of HiC heatmap (casued by homozygous region). You may need to scaffolding sepreate using HiC reads for chromsome first,then combine haplotype for haplotype-specific inversion check. Or you can use all HiC reads (no MQ filter) for chrosome scaffolding and check the haplotype-specfic inversion with filtering (MQ>1 or MQ>10).
+ 
+- High heterozygosity
+    - run juicer + 3d-dna / AllHiC (MQ>1) 
     - Loading into JuiceBox for visualization
         - False duplication (Examples are based on the hifiasm 0.15.4 for high het plant genome with trio data)
             - Fig1
@@ -85,14 +90,16 @@ bash /data/software/Merqury/merqury/trio/exclude_reads.sh mat.hapmer.meryl f1.hi
                 > |     h1tg000017l    |        39991    |           89    |        39929    |           61    |           61    |           28    |     5312873    |
                 > |     h1tg000064l    |         1572    |         5187    |         1540    |           31    |           32    |         5155    |     1725115    |
                 Conclusion: utg overlap. Find the utg in the gfa and remove.
+                
+     
 
     - Misplaced haplotype
       If you find the `hap1` ctg have more strong interaction with the hap2, and `trioeval` support it, you need manually move `this hap1` ctg to hap2
 
     - Haplotype-specific inversion
-      `MQ>1` filter for haplotype interaction, kepp the heatmap inside the haplotype is normal.
-      ![Fig6](images/Fig6.png)
-    
+      - `MQ>1` filter for haplotype interaction, kepp the heatmap inside the haplotype is normal.
+      > <a href="Fig6"><img src="images/Fig6.png" align="center" height="480" width="480" ></a>
+   
 
 ## 3. Quality check
 
