@@ -4,6 +4,9 @@
 
 - Trio
 ```shell
+
+#! Two identical name
+
 yak count -b37 -t16 -o pat.yak <(cat pat_1.fq.gz pat_2.fq.gz) <(cat pat_1.fq.gz pat_2.fq.gz)
 yak count -b37 -t16 -o mat.yak <(cat mat_1.fq.gz mat_2.fq.gz) <(cat mat_1.fq.gz mat_2.fq.gz)
 hifiasm -o HG002.asm -t32 -1 pat.yak -2 mat.yak HG002-HiFi.fa.gz
@@ -20,9 +23,34 @@ hifiasm -o HG002.asm -t32 --h1 read1.fq.gz --h2 read2.fq.gz HG002-HiFi.fq.gz
 yak trioeval pat.yak mat.yak HG002.asm.trio.hap1.p_ctg.fa > HG002.asm.hap1.trioeval
 yak trioeval pat.yak mat.yak HG002.asm.trio.hap2.p_ctg.fa > HG002.asm.hap2.trioeval
 
-## Merqury.FK (https://github.com/thegenemyers/MERQURY.FK)
+grep "^S"  HG002.asm.hap1.trioeval|cut -f2-4,9|awk '{print $0"\tpat"}' >> F1.trio.tsv
+grep "^S"  HG002.asm.hap2.trioeval|cut -f2-4,9|awk '{print $0"\tmat"}' >> F1.trio.tsv
+
+## Merqury
+
+Follow the https://github.com/marbl/merqury/wiki/3.-Phasing-assessment-with-hap-mers
 
 ```
+
+Plot kmer with yak result
+```
+
+data <- read.table("./F1.trio.tsv",header=F,sep="\t")
+colnames(data) <- c("ctg","Pat","Mat","Len","Type")
+data$Len <- data$Len/1e6
+
+library(ggplot2)
+library(ggsci)
+
+pal <- pal_locuszoom()(5)
+
+p <- ggplot()+
+  geom_point(data=data,aes(x=Pat,y=Mat,size=Len,color=Type),alpha=0.5)+
+  scale_color_manual(values=c("#D43F3AFF","#357EBD"))+
+  theme_bw()
+
+```
+
 
 ## 2. Haplotype-aware scaffolding
 
