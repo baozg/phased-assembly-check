@@ -54,7 +54,8 @@ p <- ggplot()+
 
 ## 2. Haplotype-aware scaffolding
 
-### Remove Haplotype-specific HiC reads (https://www.nature.com/articles/s41586-021-03451-0) (with Trio data)
+### Remove Haplotype-specific HiC reads (with Trio data) 
+[VGP case](https://www.nature.com/articles/s41586-021-03451-0)
 
 ```shell
 meryl-lookup -memory 2 -exclude -mers pat.meryl -sequence $read1 -sequence2 $read2 -r2
@@ -152,3 +153,10 @@ If your sample's heterozygosity is medium (ex. < 1%) or have long ROH , combinin
 - QV estimation for two haplotype
 - Check the haplotype synteny and confirm the utg (https://github.com/chhylp123/hifiasm/issues/159)
 - Check the coverage of two haplotype
+
+## 4.Citation
+
+Scaffold separately then mapping all reads together
+
+Bao, Z., Li, C., Li, G., Wang, P., Peng, Z., Cheng, L., ... & Zhou, Q. (2022). Genome architecture and tetrasomic inheritance of autotetraploid potato. Molecular Plant, 15(7), 1211-1226.
+
