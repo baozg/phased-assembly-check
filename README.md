@@ -63,7 +63,7 @@ mat.R2.fastq.gz | pigz -c > mat.R1.fastq.gz
 meryl-lookup -memory 2 -exclude -mers mat.meryl -sequence $read1 -sequence2 $read2 -r2
 pat.R2.fastq.gz | pigz -c > pat.R1.fastq.gz 
 
-Using https://github.com/marbl/merqury/blob/master/trio/exclude_reads.sh
+# Using https://github.com/marbl/merqury/blob/master/trio/exclude_reads.sh
 
 bash /data/software/Merqury/merqury/trio/exclude_reads.sh mat.hapmer.meryl f1.hic.R1.fq.gz f1.hic.R2.fq.gz pat
 ```
@@ -71,7 +71,7 @@ bash /data/software/Merqury/merqury/trio/exclude_reads.sh mat.hapmer.meryl f1.hi
 
 - Medium heterozygosity or with high ROH
 
-If your sample's heterozygosity is medium (ex. < 1%) or have long ROH , combining two haplotype and run HiC scaffolding will have lots of empty region of HiC heatmap (casued by homozygous region). You may need to scaffolding sepreate using HiC reads for chromsome first,then combine haplotype for haplotype-specific inversion check. Or you can use all HiC reads (no MQ filter) for chrosome scaffolding and check the haplotype-specfic inversion with filtering (MQ>1 or MQ>10).
+If your sample's heterozygosity is medium (ex. < 1%) or have long ROH , combining two haplotype and run HiC scaffolding will have lots of empty region of HiC heatmap (casued by homozygous region). You may need to scaffolding sepreate using HiC reads for chromsome first,then combine haplotype for haplotype-specific inversion check. Or you can use all HiC reads (no MQ filter) for chrosome scaffolding and check the haplotype-specfic inversion with filtering (MQ>1 or MQ>10). This is how we scaffold the tetraploid potato [Genome architecture and tetrasomic inheritance of autotetraploid potato](https://www.cell.com/molecular-plant/fulltext/S1674-2052(22)00191-5)
  
 - High heterozygosity
     - run juicer + 3d-dna / AllHiC (MQ>1) 
