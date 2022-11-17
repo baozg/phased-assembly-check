@@ -156,7 +156,13 @@ If your sample's heterozygosity is medium (ex. < 1%) or have long ROH , combinin
 
 ## 4.Citation
 
-Scaffold separately then mapping all reads together
+### Scaffold separately first then mapping all reads for haplotype specific 
 
 Bao, Z., Li, C., Li, G., Wang, P., Peng, Z., Cheng, L., ... & Zhou, Q. (2022). Genome architecture and tetrasomic inheritance of autotetraploid potato. Molecular Plant, 15(7), 1211-1226.
+
+### Merge all haplotype and mapping all reads
+
+Huang, Y., Wang, H., Zhu, Y. et al. THP9 enhances seed protein content and nitrogen-use efficiency in maize. Nature (2022). https://doi.org/10.1038/s41586-022-05441-2
+
+
 
