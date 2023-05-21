@@ -7,8 +7,8 @@
 
 #! Two identical name
 
-yak count -b37 -t16 -o pat.yak <(cat pat_1.fq.gz pat_2.fq.gz) <(cat pat_1.fq.gz pat_2.fq.gz)
-yak count -b37 -t16 -o mat.yak <(cat mat_1.fq.gz mat_2.fq.gz) <(cat mat_1.fq.gz mat_2.fq.gz)
+yak count -b37 -t16 -o pat.yak <(zcat pat_1.fq.gz pat_2.fq.gz) <(zcat pat_1.fq.gz pat_2.fq.gz)
+yak count -b37 -t16 -o mat.yak <(zcat mat_1.fq.gz mat_2.fq.gz) <(zcat mat_1.fq.gz mat_2.fq.gz)
 hifiasm -o HG002.asm -t32 -1 pat.yak -2 mat.yak HG002-HiFi.fa.gz
 ```
 - HiC
