@@ -153,6 +153,7 @@ If your sample's heterozygosity is medium (ex. < 1%) or have long ROH , combinin
 - QV estimation for two haplotype
 - Check the haplotype synteny and confirm the utg (https://github.com/chhylp123/hifiasm/issues/159)
 - Check the coverage of two haplotype
+- KAT spectrum and completeness for boths haps and combianed one
 
 ## 4.Citation
 
