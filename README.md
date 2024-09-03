@@ -69,67 +69,83 @@ bash /data/software/Merqury/merqury/trio/exclude_reads.sh mat.hapmer.meryl f1.hi
 ```
 ### Scaffold two haplotype together and check (recommend for HiC only)
 
-- Medium heterozygosity or with high ROH
+Update: Now you could scaffold haplotypes with [HapHiC](https://github.com/zengxiaofei/HapHiC) for any level of heterzygosity and curated based on HiC contact map, genome alignment, repeat annotation and assembly graph if possible
 
-If your sample's heterozygosity is medium (ex. < 1%) or have long ROH , combining two haplotype and run HiC scaffolding will have lots of empty region of HiC heatmap (casued by homozygous region). You may need to scaffolding sepreate using HiC reads for chromsome first,then combine haplotype for haplotype-specific inversion check. Or you can use all HiC reads (no MQ filter) for chrosome scaffolding and check the haplotype-specfic inversion with filtering (MQ>1 or MQ>10). This is how we scaffold the tetraploid potato [Genome architecture and tetrasomic inheritance of autotetraploid potato](https://www.cell.com/molecular-plant/fulltext/S1674-2052(22)00191-5)
+#### Medium heterozygosity or uneven heterzygoisty distribution
+
+If your sample's heterozygosity is medium (ex. < 1%) or have long ROH (backcrossing or seg), combining two haplotype and run HiC scaffolding will have lots of empty region of HiC heatmap (abminguity mapping of homozygous region). You may need to scaffolding sepreate using HiC reads for chromsome first,then combine haplotype for haplotype-specific inversion check. Or you can use all HiC reads (no MQ filter) for chrosome scaffolding and check the haplotype-specfic inversion with filtering (MQ>1 or MQ>10). This is how we scaffold the tetraploid potato [Genome architecture and tetrasomic inheritance of autotetraploid potato](https://www.cell.com/molecular-plant/fulltext/S1674-2052(22)00191-5)
  
-- High heterozygosity
-    - run juicer + 3d-dna / AllHiC (MQ>1) 
-    - Loading into JuiceBox for visualization
-        - False duplication (Examples are based on the hifiasm 0.15.4 for high het plant genome with trio data)
-            - Fig1
-                > ![Fig1](images/Fig1.png)
-                > |     seqName        |     #matKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
-                > |--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
-                > |     h1tg000041l    |          160    |        10644    |           77    |           83    |           82    |        10561    |     6152553    |
-                > |     h1tg000053l    |        50105    |           62    |        50059    |           45    |           45    |           17    |     5159680    |
-                > |     h1tg000050l    |        17945    |           27    |        17924    |           20    |           20    |            7    |     2082689    | 
-                Conclusion: Remove the h1tg000041l
-
-            - Fig2
-                > ![Fig2](images/Fig2.png)
-                > |     seqName        |     #patKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
-                > |--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
-                > |     h1tg000015l    |           87    |          164    |           51    |           35    |           36    |          128    |     2770227    |
-                > |     h1tg000078l    |           42    |           66    |           24    |           18    |           18    |           47    |     1476449    |
-                > |     h1tg000028l    |         7532    |           87    |         7478    |           53    |           53    |           34    |     3799565    |
-                Conclusion: Remove the h1tg000015l and h1tg000028l
-
-            - Fig3
-                > ![Fig3](images/Fig3.png)
-                > |     seqName        |     #patKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
-                > |--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
-                > |     h1tg000054l    |         6908    |           10    |         6899    |            8    |            8    |            2    |     1004624    |
-                > |     h1tg000013l    |        25643    |          330    |        25547    |           95    |           96    |          234    |     8177266    |
-                > |     h1tg000059l    |           57    |          245    |           25    |           32    |           32    |          212    |     1963293    |
-                > |     h1tg000056l    |           12    |           29    |            4    |            7    |            7    |           22    |      685156    |
-                > |     h1tg000052l    |        25905    |          219    |        25816    |           88    |           88    |          131    |     5467035    |
-                Conclusion: Remove the h1tg000059l and h1tg000056l, 52l vs (54l+13l) maybe real
-            - Fig4
-                > ![Fig4](images/Fig4.png)
-                > |     seqName        |     #patKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
-                > |--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
-                > |     h1tg000031l    |        17138    |        12244    |        17075    |           63    |           63    |        12180    |     4988700    |
-                > |     h1tg000029l    |        44167    |          139    |        44067    |           99    |           99    |           40    |     7648617    |
-                Conclusion: utg overlap. Find the utg in the `gfa` and remove rerun the `utg` trioeval and decide.
-
-            - Fig5
-                > ![Fig5](images/Fig5.png)
-                > |     seqName        |     #patKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
-                > |--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
-                > |     h1tg000017l    |        39991    |           89    |        39929    |           61    |           61    |           28    |     5312873    |
-                > |     h1tg000064l    |         1572    |         5187    |         1540    |           31    |           32    |         5155    |     1725115    |
-                Conclusion: utg overlap. Find the utg in the gfa and remove.
-                
-     
-
-    - Misplaced haplotype
+#### High heterozygosity
+1. ~run juicer + 3d-dna / AllHiC (MQ>1)~ Run [HapHiC](https://github.com/zengxiaofei/HapHiC)
+2. Loading into JuiceBox for visualization
+    - False duplication (Examples are based on the hifiasm 0.15.4 for high het plant genome with trio data)
+    - Misplaced haplotype / uncomplete haplotype scaffolding
       If you find the `hap1` ctg have more strong interaction with the hap2, and `trioeval` support it, you need manually move `this hap1` ctg to hap2
-
+      <img width="431" alt="image" src="https://github.com/user-attachments/assets/86508035-50c4-4d9e-8962-8f56616b26aa">
     - Haplotype-specific inversion
       - `MQ>1` filter for haplotype interaction, kepp the heatmap inside the haplotype is normal.
-      > <a href="Fig6"><img src="images/Fig6.png" align="center" height="480" width="480" ></a>
+        <img src="images/Fig6.png" align="center" height="480" width="480" >
+
+---
+##### Examples
+
+
+> ![Fig1](images/Fig1.png)
+Move the h1tg000041l to maternal hap
    
+|     seqName        |     #matKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
+|--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
+|     h1tg000041l    |          160    |        10644    |           77    |           83    |           82    |        10561    |     6152553    |
+|     h1tg000053l    |        50105    |           62    |        50059    |           45    |           45    |           17    |     5159680    |
+|     h1tg000050l    |        17945    |           27    |        17924    |           20    |           20    |            7    |     2082689    |
+   
+
+---
+
+
+> ![Fig2](images/Fig2.png)
+Conclusion: Remove the h1tg000015l and h1tg000028l
+
+|     seqName        |     #patKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
+|--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
+|     h1tg000015l    |           87    |          164    |           51    |           35    |           36    |          128    |     2770227    |
+|     h1tg000078l    |           42    |           66    |           24    |           18    |           18    |           47    |     1476449    |
+|     h1tg000028l    |         7532    |           87    |         7478    |           53    |           53    |           34    |     3799565    |
+
+---
+
+![Fig3](images/Fig3.png)
+Conclusion: Remove the h1tg000059l and h1tg000056l, 52l vs (54l+13l) maybe real
+ 
+|     seqName        |     #patKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
+|--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
+|     h1tg000054l    |         6908    |           10    |         6899    |            8    |            8    |            2    |     1004624    |
+|     h1tg000013l    |        25643    |          330    |        25547    |           95    |           96    |          234    |     8177266    |
+|     h1tg000059l    |           57    |          245    |           25    |           32    |           32    |          212    |     1963293    |
+|     h1tg000056l    |           12    |           29    |            4    |            7    |            7    |           22    |      685156    |
+|     h1tg000052l    |        25905    |          219    |        25816    |           88    |           88    |          131    |     5467035    |
+               
+---
+
+![Fig4](images/Fig4.png)
+ Conclusion: utg overlap. Find the utg in the `gfa` and remove rerun the `utg` trioeval and decide.
+
+|     seqName        |     #patKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
+|--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
+|     h1tg000031l    |        17138    |        12244    |        17075    |           63    |           63    |        12180    |     4988700    |
+|     h1tg000029l    |        44167    |          139    |        44067    |           99    |           99    |           40    |     7648617    |
+               
+
+---
+
+![Fig5](images/Fig5.png)
+Conclusion: utg overlap. Find the utg in the gfa and remove.
+
+|     seqName        |     #patKmer    |     #patKmer    |     #pat-pat    |     #pat-mat    |     #mat-pat    |     #mat-mat    |     seqLen     |
+|--------------------|-----------------|-----------------|-----------------|-----------------|-----------------|-----------------|----------------|
+|     h1tg000017l    |        39991    |           89    |        39929    |           61    |           61    |           28    |     5312873    |
+|     h1tg000064l    |         1572    |         5187    |         1540    |           31    |           32    |         5155    |     1725115    |
+
 
 ## 3. Quality check
 
@@ -154,6 +170,7 @@ If your sample's heterozygosity is medium (ex. < 1%) or have long ROH , combinin
 - Check the haplotype synteny and confirm the utg (https://github.com/chhylp123/hifiasm/issues/159)
 - Check the coverage of two haplotype
 - KAT spectrum and completeness for boths haps and combianed one
+- Run read-mapping to two haplotype assembly with [flagger](https://github.com/mobinasri/flagger) for evulation duplication / collapsed / 
 
 ## 4.Citation
 
